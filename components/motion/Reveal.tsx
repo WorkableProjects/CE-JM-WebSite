@@ -7,11 +7,10 @@ interface RevealProps {
   children: ReactNode;
   delay?: number;
   className?: string;
-  as?: "div" | "span" | "li";
   y?: number;
 }
 
-export default function Reveal({ children, delay = 0, className, as = "div", y = 18 }: RevealProps) {
+export default function Reveal({ children, delay = 0, className, y = 18 }: RevealProps) {
   const shouldReduceMotion = useReducedMotion();
 
   const variants: Variants = {
@@ -23,10 +22,8 @@ export default function Reveal({ children, delay = 0, className, as = "div", y =
     },
   };
 
-  const MotionTag = motion[as];
-
   return (
-    <MotionTag
+    <motion.div
       className={className}
       initial="hidden"
       whileInView="visible"
@@ -34,6 +31,6 @@ export default function Reveal({ children, delay = 0, className, as = "div", y =
       variants={variants}
     >
       {children}
-    </MotionTag>
+    </motion.div>
   );
 }

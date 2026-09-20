@@ -69,6 +69,7 @@ export default function ReactiveGrid({ className = "" }: { className?: string })
     }
 
     function resize() {
+      if (!container || !canvas || !ctx) return;
       const rect = container.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const w = Math.max(1, Math.round(rect.width));
@@ -83,6 +84,7 @@ export default function ReactiveGrid({ className = "" }: { className?: string })
     }
 
     function draw() {
+      if (!ctx) return;
       ctx.clearRect(0, 0, dims.w, dims.h);
       ctx.strokeStyle = "rgba(36,27,121,0.22)";
       ctx.fillStyle = "rgba(36,27,121,0.35)";
@@ -154,6 +156,7 @@ export default function ReactiveGrid({ className = "" }: { className?: string })
     io.observe(container);
 
     function onPointerMove(e: PointerEvent) {
+      if (!container) return;
       const rect = container.getBoundingClientRect();
       pointer.x = e.clientX - rect.left;
       pointer.y = e.clientY - rect.top;
