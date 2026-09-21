@@ -69,7 +69,7 @@ export default function Navbar() {
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-8 md:flex">
-          {nav.slice(0, 2).map((item) => (
+          {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}

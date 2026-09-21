@@ -60,19 +60,20 @@ export default function Home() {
               Subject Focus
             </p>
             <h2 className="mt-4 max-w-xl font-display text-3xl font-semibold text-ink sm:text-4xl">
-              Two subjects. No wasted time.
+              Two core subjects. Targeted mastery.
             </h2>
           </Reveal>
 
-          <div className="mt-12 grid gap-5 lg:grid-cols-[1.3fr_1fr]">
+          <div className="mt-12 grid gap-5 lg:grid-cols-2">
             <Reveal delay={0.05} className="h-full">
               <SubjectCard
                 icon={<FlaskConical size={22} aria-hidden="true" />}
                 title="Chemistry"
                 code={subjects.chemistry.code}
                 topics={[...subjects.chemistry.topics]}
+                whatWeDo={subjects.chemistry.whatWeDo}
+                steps={[...subjects.chemistry.howWeOperate]}
                 pattern="molecular"
-                size="lg"
               />
             </Reveal>
             <Reveal delay={0.12} className="h-full">
@@ -81,8 +82,9 @@ export default function Home() {
                 title="IM3"
                 code={subjects.im3.code}
                 topics={[...subjects.im3.topics]}
+                whatWeDo={subjects.im3.whatWeDo}
+                steps={[...subjects.im3.howWeOperate]}
                 pattern="grid"
-                size="md"
               />
             </Reveal>
           </div>
@@ -112,26 +114,31 @@ export default function Home() {
   );
 }
 
+interface SubjectStep {
+  title: string;
+  description: string;
+}
+
 function SubjectCard({
   icon,
   title,
   code,
   topics,
+  whatWeDo,
+  steps,
   pattern,
-  size,
 }: {
   icon: ReactNode;
   title: string;
   code: string;
   topics: string[];
+  whatWeDo: string;
+  steps: SubjectStep[];
   pattern: "molecular" | "grid";
-  size: "lg" | "md";
 }) {
   return (
     <div
-      className={`group relative overflow-hidden border border-ink/10 bg-paper p-8 focus-within:border-brand sm:p-10 ${
-        size === "lg" ? "min-h-[340px]" : "min-h-[280px]"
-      }`}
+      className="group relative overflow-hidden border border-ink/10 bg-paper p-8 focus-within:border-brand sm:p-10"
       tabIndex={0}
     >
       <div
@@ -148,6 +155,7 @@ function SubjectCard({
       <h3 className="relative mt-5 font-display text-2xl font-semibold text-ink sm:text-3xl">
         {title}
       </h3>
+
       <ul className="relative mt-6 grid grid-cols-2 gap-x-4 gap-y-2.5">
         {topics.map((topic) => (
           <li key={topic} className="text-sm text-ink/70">
@@ -156,6 +164,23 @@ function SubjectCard({
           </li>
         ))}
       </ul>
+
+      <p className="relative mt-6 border-t border-ink/10 pt-6 text-sm leading-relaxed text-ink/70">
+        {whatWeDo}
+      </p>
+
+      <ol className="relative mt-6 space-y-4">
+        {steps.map((step, i) => (
+          <li key={step.title} className="flex gap-3">
+            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center bg-brand-tint font-mono text-[11px] font-semibold text-brand">
+              {i + 1}
+            </span>
+            <span className="text-sm text-ink/70">
+              <span className="font-medium text-ink">{step.title}.</span> {step.description}
+            </span>
+          </li>
+        ))}
+      </ol>
     </div>
   );
 }

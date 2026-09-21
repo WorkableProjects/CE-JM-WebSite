@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { Mail } from "lucide-react";
+import { Mail, MapPin, Video } from "lucide-react";
 import BookingLaunchButton from "@/components/booking/BookingLaunchButton";
 import Reveal from "@/components/motion/Reveal";
 import CopyEmailButton from "@/components/ui/CopyEmailButton";
-import { site } from "@/lib/site";
+import { sessionFormats } from "@/lib/site";
 import { tutors } from "@/lib/tutors";
+
+const formatIcons = { "In-Person": MapPin, Online: Video } as const;
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -15,7 +17,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div>
-      <section className="border-b border-rule bg-chalk px-4 py-20 sm:px-6 sm:py-28">
+      <section className="border-b border-rule px-4 py-20 sm:px-6 sm:py-28">
         <div className="mx-auto max-w-4xl">
           <Reveal>
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand">
@@ -26,10 +28,29 @@ export default function ContactPage() {
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-ink/65 sm:text-lg">
               Pick a time that works, choose your subject, and you&apos;re on the schedule.
-              Sessions run after school at {site.school}.
             </p>
             <div className="mt-8">
               <BookingLaunchButton />
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <div className="mt-12 grid gap-4 border-t border-rule pt-8 sm:grid-cols-2">
+              {sessionFormats.map((format) => {
+                const Icon = formatIcons[format.label];
+                return (
+                  <div key={format.label} className="flex items-start gap-3">
+                    <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center border border-brand/30 bg-brand-tint text-brand">
+                      <Icon size={16} aria-hidden="true" />
+                    </span>
+                    <div>
+                      <p className="text-sm font-semibold text-ink">{format.label}</p>
+                      <p className="text-sm text-ink/60">{format.where}</p>
+                      <p className="text-sm text-ink/60">{format.when}</p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </Reveal>
         </div>
